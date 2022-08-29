@@ -1,7 +1,7 @@
 import { IBreakdownBlock } from "../../../interfaces/IBreakdownBlock";
 import { BreakdownValueGraph } from "./BreakdownValueGraph";
 
-export function BreakdownBlock({title, data} : IBreakdownBlock)
+export function BreakdownBlock({id, title, data} : IBreakdownBlock)
 {
     return (
         <div className="breakdown-block">
@@ -9,7 +9,7 @@ export function BreakdownBlock({title, data} : IBreakdownBlock)
                 <div className="breakdown-block-title">{title}</div>
                 <div className="breakdown-block-filter">By Amount</div>
             </div>
-            <BreakdownValueGraph />
+            <BreakdownValueGraph id={id} data={data}/>
         </div>
     );
 }

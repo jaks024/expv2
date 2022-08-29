@@ -50,7 +50,7 @@ export function InputBlock()
                 label="Amount"
                 onDataChanged={setAmount}
             />
-            <InputSelectField buttons={actionButtons}/>
+            <InputSelectField buttons={categoryButton}/>
             <InputTextField 
                 label="Notes"
                 onDataChanged={setAmount}

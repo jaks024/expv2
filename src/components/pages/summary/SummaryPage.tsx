@@ -34,9 +34,9 @@ export function SummaryPage()
                 subLabelName="Average"
                 subValue={12.32}/>
             <BreakdownBlock title="Income Breakdown"
-                data={tempGraphData}/>
+                id={0} data={tempGraphData}/>
             <BreakdownBlock title="Expense Breakdown"
-                data={tempGraphData}/>
+                id={1} data={tempGraphData}/>
         </div>
     );
 }
