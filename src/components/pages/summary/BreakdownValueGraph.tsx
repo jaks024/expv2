@@ -1,18 +1,28 @@
+import "../../../styles/BreakdownBlock.css";
 import { IBreakdownValueGraph } from "../../../interfaces/IBreakdownValueGraph";
 import { IBreakdownValueGraphData } from "../../../interfaces/IBreakdownValueGraphData";
 import { GetUniqueId } from "../../utilities";
 import { BreakdownValueBar } from "./BreakdownValueBar";
 
-export function BreakdownValueGraph({ id, data }: IBreakdownValueGraph)
+export function BreakdownValueGraph({ data }: IBreakdownValueGraph)
 {
     const GenerateBars = (data: IBreakdownValueGraphData[]) => {
-        return data.map(d => {
+        if (data.length <= 0) {
+            return;
+        }
+        
+        data.sort((a, b) => b.value - a.value);
+        const max = data[0].value;
+        
+        return data.map((d, index) => {
+            const width = (d.value / max) * 100;
+            const alpha = Math.min(Math.max(((data.length - index) / data.length) + 0.3, 0.3), 1);
             return <BreakdownValueBar 
                         key={`breakdown-${GetUniqueId()}-${d.title}`}
                         title={d.title}
                         value={d.value}
-                        width="100%"
-                        color="blue"/>
+                        width={`${width}%`}
+                        color={`rgba(96, 93, 241, ${alpha})`}/>
         });
     }
 

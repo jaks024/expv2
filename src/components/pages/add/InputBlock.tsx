@@ -33,7 +33,7 @@ export function InputBlock()
     ];
 
     useEffect(() => {
-        alert(`${vendor} ${location} ${amount}`);
+        //alert(`${vendor} ${location} ${amount}`);
     });
 
     return (

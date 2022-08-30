@@ -1,0 +1,27 @@
+.nav-stack {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    height: 60px;
+}
+
+.nav-btn {
+    width: 60px;
+    height: 100%;
+}
+
+.nav-btn-img-outer {
+    height: 30px;
+    width: 30px;
+    margin: auto;
+}
+
+.nav-btn-img-outer > img {
+    width: 100%;
+    height: 100%;
+}
+
+.nav-btn-text {
+    text-align: center;
+    font-size: 14px;
+}

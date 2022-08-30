@@ -1,0 +1,29 @@
+.summary-value-block {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: fit-content;
+    margin: 20px 0px;
+}
+
+.summary-value-block-main-label {
+    font-size: 16px;
+}
+
+.summary-value-block-main-value {
+    font-size: 52px;
+    color: #6260F4;
+}
+
+.summary-value-block-main-decimal {
+    font-size: 24px;
+}
+
+.summary-value-block-sub-label {
+    font-size: 14px;
+}
+
+.summary-value-block-sub-value {
+    font-size: 24px;
+}

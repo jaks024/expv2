@@ -1,42 +1,48 @@
+import "../../../styles/SummaryPage.css";
 import { IBreakdownValueGraphData } from "../../../interfaces/IBreakdownValueGraphData";
 import { PageHeadBlock } from "../heading/PageHeadBlock";
 import { BreakdownBlock } from "./BreakdownBlock";
 import { SummaryValueBlock } from "./SummaryValueBlock";
+import SimpleBar from 'simplebar-react';
+import 'simplebar/dist/simplebar.min.css';
 
 export function SummaryPage() 
 {
-    const tempGraphData: IBreakdownValueGraphData[] = [
+    const GetRandomNumber = () => Math.random() * 5000;
+
+    const GenerateTempGraphData = () => {
+        const data:IBreakdownValueGraphData[] = [];
+        for (let i = 0; i < 10; ++i)
         {
-            title: "Test 1",
-            value: 123.45
-        },
-        {
-            title: "Test 2",
-            value: 67.89
+            const randVal = Math.random() * 5000;
+            data.push({ title: `Test ${i}`, value: randVal})
         }
-    ];
+        return data;
+    };
 
     return (
         <div className="page summary-page">
             <PageHeadBlock 
                 name="Summary"
-                month="from props"
-                year="from props"
+                month="Jan"
+                year="2022"
                 />
-            <SummaryValueBlock 
-                mainLabelName="Income"
-                mainValue={123.00}
-                subLabelName="Average"
-                subValue={12.32}/>
-            <SummaryValueBlock 
-                mainLabelName="Expense"
-                mainValue={123.00}
-                subLabelName="Average"
-                subValue={12.32}/>
-            <BreakdownBlock title="Income Breakdown"
-                id={0} data={tempGraphData}/>
-            <BreakdownBlock title="Expense Breakdown"
-                id={1} data={tempGraphData}/>
+            <SimpleBar style={{height: "96%", padding:"10px"}}>
+                <SummaryValueBlock 
+                    mainLabelName="Income"
+                    mainValue={GetRandomNumber()}
+                    subLabelName="Average"
+                    subValue={GetRandomNumber()}/>
+                <SummaryValueBlock 
+                    mainLabelName="Expense"
+                    mainValue={GetRandomNumber()}
+                    subLabelName="Average"
+                    subValue={GetRandomNumber()}/>
+                <BreakdownBlock title="Income Breakdown"
+                    id={0} data={GenerateTempGraphData()}/>
+                <BreakdownBlock title="Expense Breakdown"
+                    id={1} data={GenerateTempGraphData()}/>
+            </SimpleBar>
         </div>
     );
 }

@@ -1,17 +1,18 @@
+import "../../../styles/BreakdownValueBar.css";
 import { IBreakdownValueBar } from "../../../interfaces/IBreakdownValueBar";
 
 export function BreakdownValueBar({title, value, width, color} : IBreakdownValueBar)
 {
     const barStyle = {
-        color: color,
+        background: color,
         width: width
     };
 
     return (
         <div className="breakdown-value-bar" style={barStyle}>
             <div className="breakdown-value-details">
-                <span>{title}</span>
-                <span>${value}</span>
+                <span>{title}&ensp;</span>
+                <span>${value.toFixed(2)}</span>
             </div>
         </div>
     );

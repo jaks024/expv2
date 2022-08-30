@@ -1,3 +1,4 @@
+import "../../../styles/PageHeadBlock.css";
 import { IPageHeadBlock } from "../../../interfaces/IPageHeadBlock";
 
 export function PageHeadBlock({name, month, year} : IPageHeadBlock)
@@ -12,8 +13,9 @@ export function PageHeadBlock({name, month, year} : IPageHeadBlock)
                 </div>
             </div>
             <div className="page-head-btn">
-                <button title="Filter"
-                    onClick={() => alert("filter")}/>
+                <button onClick={() => alert("filter")}>
+                    Filter
+                </button>
             </div>
         </div>
     );

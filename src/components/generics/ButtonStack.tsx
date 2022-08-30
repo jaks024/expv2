@@ -6,7 +6,9 @@ export function ButtonStack({buttons} : IButtonStack)
 {
     const CreateButtons = (btns : IButton[]) => {
         return btns.map(btn => {
-            return <button key={GetUniqueId()} title={btn.text} onClick={btn.onClick} /> 
+            return <button key={GetUniqueId()} type="button" onClick={btn.onClick}>
+                {btn.text}
+            </button>
         });
     }
 

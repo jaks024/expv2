@@ -1,9 +1,9 @@
 import { INavButton } from "../../interfaces/INavButton";
 
-export function NavButton({text, imageSrc, imageAlt} : INavButton)
+export function NavButton({text, imageSrc, imageAlt, onClick} : INavButton)
 {
     return (
-        <div className="nav-btn">
+        <div className="nav-btn" onClick={onClick}>
             <div className="nav-btn-img-outer">
                 <img src={imageSrc} alt={imageAlt}/>
             </div>

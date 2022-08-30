@@ -1,24 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './styles/App.css';
+import { NavStack } from './components/nav/NavStack';
+import { AddPage } from './components/pages/add/AddPage';
+import { SummaryPage } from './components/pages/summary/SummaryPage';
+import { HistoryPage } from './components/pages/history/HistoryPage';
 
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <div className="app-pages">
+        <div className="page-wrapper">
+          <AddPage />
+        </div>
+        <div className="page-wrapper page-enabled">
+          <SummaryPage />
+        </div>
+        <div className="page-wrapper">
+          <HistoryPage />
+        </div>
+      </div>
+      <NavStack />
     </div>
   );
 }
