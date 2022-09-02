@@ -1,24 +1,32 @@
 .nav-stack {
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    height: 60px;
+    height: 70px;
+    background: linear-gradient(transparent, white);
 }
 
 .nav-btn {
     width: 60px;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .nav-btn-img-outer {
     height: 30px;
     width: 30px;
-    margin: auto;
+    margin: 0 auto;
 }
 
 .nav-btn-img-outer > img {
     width: 100%;
     height: 100%;
+    filter: opacity(0.8);
 }
 
 .nav-btn-text {

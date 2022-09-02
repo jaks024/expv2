@@ -31,7 +31,8 @@ export function HistoryPage()
             <PageHeadBlock 
                 name="History"
                 month="from prop"
-                year="from prop"/> 
+                year="from prop"
+                isFilterButtonEnabled={true}/> 
             <HistorySummaryBlock 
                 income={123}
                 expense={213}/>

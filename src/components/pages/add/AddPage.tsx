@@ -6,9 +6,10 @@ export function AddPage()
     return (
         <div className="page add-page">
             <PageHeadBlock 
-                name="Summary"
+                name="Add"
                 month="January"
-                year="2022"/>
+                year="2022"
+                isFilterButtonEnabled={true}/>
             <div className="add-page-input-block-stack">
                 <InputBlock />
             </div>

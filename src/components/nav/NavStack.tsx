@@ -1,26 +1,35 @@
 import "../../styles/NavStack.css"
 import { NavButton } from "./NavButton";
-import icon from "../../logo.svg";
+import addIcon from "../../icons/add.svg";
+import summaryIcon from "../../icons/home.svg";
+import historyIcon from "../../icons/history.svg";
+import settingIcon from "../../icons/setting.svg";
+import { INavStack } from "../../interfaces/INavStack";
 
-export function NavStack()
+export function NavStack({ onClickAddPage, onClickSummaryPage, onClickHistoryPage, onClickSettingPage} : INavStack)
 {
     return (
         <div className="nav-stack">
             <NavButton 
                 text="Add"
-                imageSrc={icon}
+                imageSrc={addIcon}
                 imageAlt="Add"
-                onClick={() => alert("add")}/>
+                onClick={onClickAddPage}/>
             <NavButton 
                 text="Summary"
-                imageSrc={icon}
+                imageSrc={summaryIcon}
                 imageAlt="Summary"
-                onClick={() => alert("sum")}/>
+                onClick={onClickSummaryPage}/>
             <NavButton 
                 text="History"
-                imageSrc={icon}
+                imageSrc={historyIcon}
                 imageAlt="History"
-                onClick={() => alert("his")}/>
+                onClick={onClickHistoryPage}/>
+            <NavButton 
+                text="Setting"
+                imageSrc={settingIcon}
+                imageAlt="Setting"
+                onClick={onClickSettingPage}/>
         </div>
     );
 }

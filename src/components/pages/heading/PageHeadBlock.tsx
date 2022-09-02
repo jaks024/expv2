@@ -1,7 +1,8 @@
 import "../../../styles/PageHeadBlock.css";
 import { IPageHeadBlock } from "../../../interfaces/IPageHeadBlock";
+import menuIcon from "../../../icons/menu.svg";
 
-export function PageHeadBlock({name, month, year} : IPageHeadBlock)
+export function PageHeadBlock({name, month, year, isFilterButtonEnabled} : IPageHeadBlock)
 {
     return (
         <div className="page-head-block">
@@ -12,9 +13,9 @@ export function PageHeadBlock({name, month, year} : IPageHeadBlock)
                     <span>{year}</span>
                 </div>
             </div>
-            <div className="page-head-btn">
+            <div className="page-head-btn" style={{display: isFilterButtonEnabled ? "block" : "none"}}>
                 <button onClick={() => alert("filter")}>
-                    Filter
+                    <img src={menuIcon} alt="filter"/>
                 </button>
             </div>
         </div>

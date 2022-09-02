@@ -26,6 +26,7 @@ export function SummaryPage()
                 name="Summary"
                 month="Jan"
                 year="2022"
+                isFilterButtonEnabled={true}
                 />
             <SimpleBar style={{height: "96%", padding:"10px"}}>
                 <SummaryValueBlock 
@@ -42,6 +43,9 @@ export function SummaryPage()
                     id={0} data={GenerateTempGraphData()}/>
                 <BreakdownBlock title="Expense Breakdown"
                     id={1} data={GenerateTempGraphData()}/>
+                <br />
+                <br />
+                <br />
             </SimpleBar>
         </div>
     );
