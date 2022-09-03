@@ -28,11 +28,11 @@ export function InputBlock()
 
     const actionButtons: IButton[] = [
         {
-            text: "Add",
+            text: "Add New Entry",
             onClick: () => {console.log("a")}
         },
         {
-            text: "Clear",
+            text: "Clear Inputs",
             onClick: () => {console.log("a")}
         }
     ];
@@ -44,7 +44,7 @@ export function InputBlock()
     return (
         <div className="input-block">
             <InputTextField 
-                label="Vendor"
+                label="Vendor*"
                 onDataChanged={setVendor}
             />
             <InputTextField 
@@ -52,7 +52,7 @@ export function InputBlock()
                 onDataChanged={setLocation}
             />
             <InputTextField 
-                label="Amount"
+                label="Amount*"
                 onDataChanged={setAmount}
             />
             <InputSelectField buttons={categoryButton}/>

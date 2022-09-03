@@ -1,4 +1,5 @@
 import { ITag } from "../../interfaces/ITag";
+import "../../styles/Tag.css"
 
 export function Tag({name, color} : ITag) {
 

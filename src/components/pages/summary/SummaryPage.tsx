@@ -28,7 +28,7 @@ export function SummaryPage()
                 year="2022"
                 isFilterButtonEnabled={true}
                 />
-            <SimpleBar style={{height: "calc(100% - 70px)", padding:"10px"}}>
+            <SimpleBar style={{height: "calc(100% - 50px)", padding:"10px"}}>
                 <SummaryValueBlock 
                     mainLabelName="Income"
                     mainValue={GetRandomNumber()}
@@ -43,6 +43,7 @@ export function SummaryPage()
                     id={0} data={GenerateTempGraphData()}/>
                 <BreakdownBlock title="Expense Breakdown"
                     id={1} data={GenerateTempGraphData()}/>
+                <br />
                 <br />
                 <br />
                 <br />

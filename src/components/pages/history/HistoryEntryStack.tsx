@@ -2,6 +2,7 @@ import { IEntry } from "../../../interfaces/IEntry";
 import { IHistoryEntryStack } from "../../../interfaces/IHistoryEntryStack";
 import { GetUniqueId } from "../../utilities";
 import { HistoryEntry } from "./HistoryEntry";
+import "../../../styles/HistoryEntryStack.css";
 
 export function HistoryEntryStack({data} : IHistoryEntryStack)
 {

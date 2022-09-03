@@ -8,4 +8,5 @@ export interface IEntry {
     isExpense: boolean;
     tags: ITag[];
     notes: string;
+    onDelete: () => void;
 }

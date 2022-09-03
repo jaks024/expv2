@@ -2,8 +2,10 @@ import { IEntry } from "../../../interfaces/IEntry";
 import { ITag } from "../../../interfaces/ITag";
 import { Tag } from "../../generics/Tag";
 import { GetUniqueId } from "../../utilities";
+import deleteIcon from "../../../icons/delete.svg";
+import "../../../styles/HistoryEntry.css";
 
-export function HistoryEntry({id, vendor, location, amount, isExpense, tags, notes} : IEntry)
+export function HistoryEntry({vendor, location, amount, isExpense, tags, notes, onDelete} : IEntry)
 {
     const GenerateTags = (tags: ITag[]) => {
         return tags.map(tag => {
@@ -13,7 +15,7 @@ export function HistoryEntry({id, vendor, location, amount, isExpense, tags, not
 
     return (
         <div className="history-entry">
-            <div className={`history-entry-type-label ${isExpense ? "history-entry-expense" : "history-entry-expense"}`}>
+            <div className={`history-entry-type-label ${isExpense ? "history-entry-expense" : "history-entry-income"}`}>
                 {isExpense ? "Expense" : "Income" }
             </div>
             <div className="history-entry-content">
@@ -22,8 +24,11 @@ export function HistoryEntry({id, vendor, location, amount, isExpense, tags, not
                         {vendor}
                     </div>
                     <div>
-                        {amount}
+                        ${amount.toFixed(2)}
                     </div>
+                    <button className="history-entry-delete-button" onClick={onDelete}>
+                        <img src={deleteIcon} alt="delete"/>
+                    </button>
                 </div>
                 <div className="history-entry-sub-content">
                     <div>

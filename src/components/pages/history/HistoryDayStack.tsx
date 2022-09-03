@@ -1,6 +1,6 @@
-import { IEntry } from "../../../interfaces/IEntry";
 import { IHistoryDayStack } from "../../../interfaces/IHistoryDayStack";
 import { HistoryEntryStack } from "./HistoryEntryStack";
+import "../../../styles/HistoryDayStack.css";
 
 export function HistoryDayStack({date, entries} : IHistoryDayStack)
 {

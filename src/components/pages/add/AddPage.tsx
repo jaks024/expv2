@@ -13,10 +13,14 @@ export function AddPage()
                 month="January"
                 year="2022"
                 isFilterButtonEnabled={true}/>
-            <SimpleBar style={{height: "calc(100% - 150px)", padding:"10px"}}>
+            <SimpleBar style={{height: "calc(100% - 50px)", padding:"10px"}}>
                 <div className="add-page-input-block-stack">
                     <InputBlock />
                 </div>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
             </SimpleBar>
             
         </div>

@@ -1,0 +1,21 @@
+.history-summary-block {
+    width: 100%;
+    height: 55px;
+    display: flex;
+    flex-direction: row;
+}
+
+.history-summary-display {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    min-width: fit-content;
+}
+
+.history-summary-value-label {
+    font-size: 14px;
+}
+
+.history-summary-value {
+    font-size: 28px;
+}
