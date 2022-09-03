@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { IButton } from "../../../interfaces/IButton";
+import { ISelectableButton } from "../../../interfaces/ISelectableButton";
 import { ButtonStack } from "../../generics/ButtonStack";
 import { InputSelectField } from "./InputSelectField";
+import { InputTagField } from "./InputTagField";
 import { InputTextField } from "./InputTextField";
 
 export function InputBlock()
@@ -9,26 +11,29 @@ export function InputBlock()
     const [vendor, setVendor] = useState("");
     const [location, setLocation] = useState("");
     const [amount, setAmount] = useState("");
+    const [isExpense, setIsExpense] = useState(true);
 
-    const categoryButton: IButton[] = [
+    const categoryButton: ISelectableButton[] = [
         {
             text: "Expense",
-            onClick: () => alert("expense")
+            onClick: () => setIsExpense(true),
+            isSelected: isExpense
         },
         {
             text: "Income",
-            onClick: () => alert("income")
+            onClick: () => setIsExpense(false),
+            isSelected: !isExpense
         }
     ];
 
     const actionButtons: IButton[] = [
         {
             text: "Add",
-            onClick: () => alert("added")
+            onClick: () => {console.log("a")}
         },
         {
             text: "Clear",
-            onClick: () => alert("cleared")
+            onClick: () => {console.log("a")}
         }
     ];
 
@@ -51,6 +56,7 @@ export function InputBlock()
                 onDataChanged={setAmount}
             />
             <InputSelectField buttons={categoryButton}/>
+            <InputTagField />
             <InputTextField 
                 label="Notes"
                 onDataChanged={setAmount}

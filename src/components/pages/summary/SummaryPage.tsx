@@ -28,7 +28,7 @@ export function SummaryPage()
                 year="2022"
                 isFilterButtonEnabled={true}
                 />
-            <SimpleBar style={{height: "96%", padding:"10px"}}>
+            <SimpleBar style={{height: "calc(100% - 70px)", padding:"10px"}}>
                 <SummaryValueBlock 
                     mainLabelName="Income"
                     mainValue={GetRandomNumber()}

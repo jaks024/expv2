@@ -1,8 +1,9 @@
-import { IButton } from "../../../interfaces/IButton";
+import { ISelectableButton } from "../../../interfaces/ISelectableButton";
+import "../../../styles/InputSelectButton.css";
 
-export function InputSelectButton({text, onClick} : IButton)
+export function InputSelectButton({text, onClick, isSelected} : ISelectableButton)
 {
     return (
-        <button onClick={onClick}>{text}</button>
+        <button className={isSelected ? "button-selected" : ""} onClick={onClick}>{text}</button>
     );
 }

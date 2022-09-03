@@ -1,0 +1,15 @@
+.input-text-field {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0px;
+}
+
+.input-field-label {
+    font-size: 14px;
+}
+
+.input-field {
+    height: 26px;
+    border-radius: 5px;
+    border: solid 1px #808080;
+}

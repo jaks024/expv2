@@ -1,5 +1,8 @@
 import { PageHeadBlock } from "../heading/PageHeadBlock";
 import { InputBlock } from "./InputBlock";
+import "../../../styles/AddPage.css";
+import SimpleBar from 'simplebar-react';
+import 'simplebar/dist/simplebar.min.css';
 
 export function AddPage()
 {
@@ -10,9 +13,12 @@ export function AddPage()
                 month="January"
                 year="2022"
                 isFilterButtonEnabled={true}/>
-            <div className="add-page-input-block-stack">
-                <InputBlock />
-            </div>
+            <SimpleBar style={{height: "calc(100% - 150px)", padding:"10px"}}>
+                <div className="add-page-input-block-stack">
+                    <InputBlock />
+                </div>
+            </SimpleBar>
+            
         </div>
     );
 }

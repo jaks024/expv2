@@ -1,6 +1,7 @@
 import { IButton } from "../../interfaces/IButton";
 import { IButtonStack } from "../../interfaces/IButtonStack";
 import { GetUniqueId } from "../utilities";
+import "../../styles/ButtonStack.css";
 
 export function ButtonStack({buttons} : IButtonStack)
 {
@@ -13,7 +14,7 @@ export function ButtonStack({buttons} : IButtonStack)
     }
 
     return (
-        <div>
+        <div className="button-stack">
             {CreateButtons(buttons)}
         </div>
     );
