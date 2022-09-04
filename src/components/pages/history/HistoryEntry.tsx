@@ -7,8 +7,22 @@ import "../../../styles/HistoryEntry.css";
 
 export function HistoryEntry({vendor, location, amount, isExpense, tags, notes, onDelete} : IEntry)
 {
-    const GenerateTags = (tags: ITag[]) => {
-        return tags.map(tag => {
+    const tagColor = "#9A98FF"
+
+    const GenerateTags = (tags: string) => {
+        const parsedTags = tags.split(" ");
+        const itags : ITag[] = [];
+        parsedTags.forEach(t => {
+            if (t.length == 0) {
+                return;
+            }
+            const newITag: ITag = {
+                name: t,
+                color: tagColor
+            };
+            itags.push(newITag);
+        });
+        return itags.map(tag => {
             return <Tag key={`${GetUniqueId()}-${tag.name}`} {...tag} />
         });
     };

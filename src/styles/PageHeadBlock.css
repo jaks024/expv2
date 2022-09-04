@@ -30,14 +30,17 @@
 
 .page-head-btn {
     position: relative;
-    width: 34px;
+    width: 30px;
     height: 30px;
+    padding: 0px;
 }
 
 .page-head-btn > button {
     margin: 5px 0px 0px 0px ;
     height: 100%;
     width: 100%;
+    padding: 2px;
+    opacity: 0.75;
 }
 
 .page-head-btn > button > img {

@@ -1,12 +1,13 @@
-import { ITag } from "./ITag";
-
 export interface IEntry {
     id: number;
+    year: number;
+    month: number;
+    day: number;
     vendor: string;
     location: string;
     amount: number;
     isExpense: boolean;
-    tags: ITag[];
+    tags: string;
     notes: string;
-    onDelete: () => void;
+    onDelete?: () => void;
 }

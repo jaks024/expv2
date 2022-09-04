@@ -26,7 +26,7 @@ export function SummaryPage()
                 name="Summary"
                 month="Jan"
                 year="2022"
-                isFilterButtonEnabled={true}
+                isRefreshButtonEnabled={true}
                 />
             <SimpleBar style={{height: "calc(100% - 50px)", padding:"10px"}}>
                 <SummaryValueBlock 

@@ -1,10 +1,10 @@
 import { IInputTextField } from "../../../interfaces/IInputTextField";
 import "../../../styles/InputTextField.css";
 
-export function InputTextField({label, onDataChanged} : IInputTextField)
+export function InputTextField({label, description, onDataChanged} : IInputTextField)
 {
     const onChangeHandler = (event: any) => {
-        onDataChanged(event);
+        onDataChanged(event.target.value);
     }
 
     return (
@@ -12,8 +12,11 @@ export function InputTextField({label, onDataChanged} : IInputTextField)
             <div className="input-field-label">
                 {label}
             </div>
-            <input className="input-field" 
-                onKeyUp={onChangeHandler}/> 
+            <div className="input-field-description">
+                {description}
+            </div>
+            <input className="input-field"
+                onChange={onChangeHandler}/> 
         </div>
     );
 }

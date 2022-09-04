@@ -8,6 +8,11 @@
     font-size: 14px;
 }
 
+.input-field-description {
+    font-size: 12px;
+    color: #808080;
+}
+
 .input-field {
     height: 26px;
     border-radius: 5px;

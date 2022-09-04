@@ -7,7 +7,7 @@
     min-height: 18px;
     max-height: 100px;
     font-size: 14px;
-    margin: 2px 0px;
+    margin: 1px 0px;
 }
 
 .history-entry-type-label {
@@ -55,6 +55,7 @@
     width: 16px;
     padding: 0px;
     box-sizing: content-box;
+    border: none;
 }
 .history-entry-delete-button > img {
     width: 100%;
@@ -89,7 +90,6 @@
     margin-right: 4px;
     font-size: 0px;
     opacity: 0;
-    margin-bottom: 2px;
     transition: font-size 0.3s,
                 opacity 0.15s;
 }
