@@ -3,15 +3,13 @@ import { InputBlock } from "./InputBlock";
 import "../../../styles/AddPage.css";
 import SimpleBar from 'simplebar-react';
 import 'simplebar/dist/simplebar.min.css';
-import { GWagonApiClient } from "../../api/GWagonApiClient";
 import { IEntry } from "../../../interfaces/IEntry";
+import { userDataInstance } from "../../api/GlobalUserData";
 
 export function AddPage()
 {
-    const apiClient = GWagonApiClient("auth token");
-
     const onAddNewEntryHandler = (newEntry: IEntry) => {
-        apiClient.AddNewEntry(newEntry);
+        userDataInstance.apiClient.AddNewEntry(newEntry);
     }
 
     return (

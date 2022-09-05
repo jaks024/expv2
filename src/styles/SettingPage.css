@@ -1,0 +1,21 @@
+.settings-options-stack {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    box-sizing: content-box;
+}
+
+.google-sign-in-button { 
+    height: 30px;
+    width: fit-content;
+    text-align: left;
+}
+
+.settings-options-label {
+    font-size: 16px;
+    margin: 10px 0px;
+}
+
+.settings-options-text {
+    font-size: 14px;
+}
