@@ -6,6 +6,7 @@ export function GWagonApiClient() {
 
     const addNewEntry = (newEntry: IEntry) => {
         console.log("added ");
+        console.log(JSON.stringify(newEntry));
         console.log(newEntry);
     }
 

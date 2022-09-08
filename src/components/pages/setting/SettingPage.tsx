@@ -111,6 +111,7 @@ export function SettingPage() {
                     {`Total number of entires: ${userDataInstance.numberOfEntries}`}
                 </div>
             </div>
+            {userDataInstance.accessToken}
         </div>
     );
 }

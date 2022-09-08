@@ -20,7 +20,7 @@
   },
   "scripts": {
     "lint": "npx eslint src",
-    "start": "npm run lint && react-scripts start",
+    "start": "npm run lint && set PORT=3001 && react-scripts start",
     "build": "npm run lint && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
