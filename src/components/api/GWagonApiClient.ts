@@ -1,4 +1,6 @@
+import { json } from "stream/consumers";
 import { IEntry } from "../../interfaces/IEntry";
+import { IGlobalUserDataDto } from "../dto/IGlobalUserDataDto";
 import { userDataInstance } from "./GlobalUserData";
 
 export function GWagonApiClient() {
@@ -13,19 +15,18 @@ export function GWagonApiClient() {
         headers.append("Content-Type", "application/json");
         headers.append("accessToken", userDataInstance.accessToken);
 
-        await fetch(`${ROOT}/add`, {
+        const res = await fetch(`${ROOT}/add`, {
             method: "POST",
             headers: headers,
             body: JSON.stringify(newEntry)
-        })
-        .then((res) => console.log(res))
-        .catch(err => {
-            console.log(err);
         });
+
+        console.log(res.status);
+        return res.status;
     }
 
-    const getRefreshToken = (onGoogleLoginResponse: any, handler: (data: any) => void) => {
-        fetch(`${ROOT}/auth/google`, {
+    const getRefreshToken = async (onGoogleLoginResponse: any, handler: (data: any) => void) => {
+        await fetch(`${ROOT}/auth/google`, {
             method: "GET",
             headers: {
                 code: onGoogleLoginResponse.code
@@ -37,8 +38,52 @@ export function GWagonApiClient() {
         });
     }
 
+    const getUserData = async () => {
+        const res = await fetch(`${ROOT}/userdata`, {
+            method: "GET",
+            headers: {
+                accessToken: userDataInstance.accessToken
+            }
+        })
+        
+        return res.json();
+    }
+
+    const createUserData = async () => {
+        const res = await fetch(`${ROOT}/userdata/create`, {
+            method: "POST",
+            headers: {
+                accessToken: userDataInstance.accessToken
+            }
+        });
+        return res.status;
+    }
+
+    const updateUserData = async () => {
+        const dto: IGlobalUserDataDto = {
+            currentMonth: userDataInstance.currentMonth,
+            currentYear: userDataInstance.currentYear,
+            numberOfEntries: userDataInstance.numberOfEntries
+        }
+        console.log(JSON.stringify(dto));
+        const headers = new Headers();
+        headers.append("Accept", "application/json");
+        headers.append("Content-Type", "application/json");
+        headers.append("accessToken", userDataInstance.accessToken);
+
+        const res = await fetch(`${ROOT}/userdata`, {
+            method: "PATCH",
+            headers: headers,
+            body: JSON.stringify(dto)
+        });
+        return res.status;
+    }
+
     return {
         AddNewEntry: addNewEntry,
-        GetRefreshToken: getRefreshToken
+        GetRefreshToken: getRefreshToken,
+        GetUserData: getUserData,
+        CreateUserData: createUserData,
+        UpdateUserData: updateUserData
     };
 }

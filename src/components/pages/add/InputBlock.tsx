@@ -101,42 +101,50 @@ export function InputBlock({getNewEntryId, onAddNewEntry} : IInputBlock)
             <InputTextField 
                 label="Year*"
                 description="Which year was it?"
+                initialValue=""
                 onDataChanged={setYearHandler}
             />
             <InputTextField 
                 label="Month*"
                 description="Which month was it? (numbers only)"
+                initialValue=""
                 onDataChanged={setMonthHandler}
             />
             <InputTextField 
                 label="Day*"
                 description="Which day of the month was it?"
+                initialValue=""
                 onDataChanged={setDayHandler}
             />
             <InputTextField 
                 label="Vendor*"
                 description="Who gave/took it?"
+                initialValue=""
                 onDataChanged={setVendor}
             />
             <InputTextField 
                 label="Location"
                 description="Where did it happen?"
+                initialValue=""
                 onDataChanged={setLocation}
             />
             <InputTextField 
                 label="Amount*"
                 description="How much was it?"
+                initialValue=""
                 onDataChanged={setAmountHandler}
             />
             <InputSelectField buttons={categoryButton}/>
             <InputTextField 
                 label="Tag(s)*"
                 description="What categories does it go into? (Tags are delimited by space)"
+                initialValue=""
                 onDataChanged={setTags}
             />
             <InputTextField 
                 label="Notes"
                 description="Any extra details?"
+                initialValue=""
                 onDataChanged={setNotes}
             />
             <ButtonStack buttons={actionButtons}/>

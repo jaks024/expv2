@@ -1,95 +1,104 @@
 import { PageHeadBlock } from "../heading/PageHeadBlock";
-import { useGoogleLogin } from "@react-oauth/google";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { userDataInstance } from "../../api/GlobalUserData";
 import "../../../styles/SettingPage.css";
+import { InputTextField } from "../add/InputTextField";
+import { SettingGoogleLogin } from "./SettingGoogleLogin";
+import { IGlobalUserDataDto } from "../../dto/IGlobalUserDataDto";
 
 export function SettingPage() {
 
-    const REFRESH_TOKEN_COOKIE_NAME = "gis_refresh_token";
-    
-    const [refreshToken, setRefreshToken] = useState("");
+    const [isUserDataRetrieved, setIsUserDataRetrieved] = useState(false);
+    const [numberOfEntries, setNumberOfEntries] = useState(userDataInstance.numberOfEntries);
+    let timeoutId: NodeJS.Timeout | null = null;
 
-    const setRefreshTokenCookie = (token: string) => {
-        document.cookie = `gis_refresh_token=${token}`;
-    };
+    const delayedSaveData = () => {
+        if (timeoutId != null) {
+            clearTimeout(timeoutId);
+        }
+        timeoutId = setTimeout(() => {
+            saveUserData();
+            timeoutId = null;
+        }, 2000);
+    }
 
-    const setAccessToken = (accessToken: string) => {
-        userDataInstance.accessToken = accessToken;
-    };
+    const inputViewYearHandler = (value: any) => {
+        if (!isNaN(+value)) {
+            const val = +value;
+            if (val >= 0) {
+                userDataInstance.currentYear = val;
+                delayedSaveData();
+            }
+        }
+    }
 
-    const isTokenInvalid = () => {
-        return (refreshToken === undefined || refreshToken.length === 0);
-    };
+    const inputViewMonthHandler = (value: any) => {
+        if (!isNaN(+value)) {
+            const val = +value;
+            if (val >= 1 && val <= 12) {
+                userDataInstance.currentMonth = val;
+                delayedSaveData();
+            }
+        }
+    }
 
-    const clearTokens = () => {
-        setAccessToken("");
-        setRefreshToken("");
-        setRefreshTokenCookie("");
-    };
+    const onDataRetrieved = () => {
+        setIsUserDataRetrieved(true);
+        setNumberOfEntries(userDataInstance.numberOfEntries);
+        userDataInstance.OnAddedNewEntry = () => {
+            ++userDataInstance.numberOfEntries;
+            setNumberOfEntries(userDataInstance.numberOfEntries);
+            saveUserData();
+            return userDataInstance.numberOfEntries;
+        }
+    }
 
-    const onLoadGetAccessToken = (refreshToken: string) => {
-        // if error on getting access token then need to reset refresh token since it became invalid 
-        fetch('http://localhost:3000/auth/access', {
-            method: 'GET',
-            headers: {
-                refreshToken: refreshToken
-            } 
-        })
-        .then((res) => res.json())
-        .then((data) => {
-            setAccessToken(data);
-        })
-        .catch((error) => {
-            console.log(error);
-            clearTokens();
-        });
-    };
-
-    const onLoadGetRefreshToken = () => {
-        const cookieRefreshToken = document.cookie.split('; ')
-            .find((row) => row.startsWith(`${REFRESH_TOKEN_COOKIE_NAME}=`))
-            ?.split('=')[1];
-        if (cookieRefreshToken === undefined || cookieRefreshToken.length == 0) {
+    const getUserData = async () => {
+        const data = await userDataInstance.apiClient.GetUserData();
+        console.log(data);
+        if (data == null) {
+            const status = await userDataInstance.apiClient.CreateUserData();
+            if (status == 200) {
+                saveUserData();
+            }
+            onDataRetrieved();
             return;
         }
-        setRefreshToken(cookieRefreshToken);
-        onLoadGetAccessToken(cookieRefreshToken);
+        
+        const parsedData: IGlobalUserDataDto = data;
+        console.log(parsedData);
+        userDataInstance.currentMonth = parsedData.currentMonth;
+        userDataInstance.currentYear = parsedData.currentYear;
+        userDataInstance.numberOfEntries = parsedData.numberOfEntries;
+        onDataRetrieved();
     };
 
-    useEffect(() => {
-        onLoadGetRefreshToken();
-    }, []);
+    const saveUserData = () => {
+        userDataInstance.apiClient.UpdateUserData();
+        console.log("saved user data");
+    }
 
-    const onGoogleLoginSuccess = async (response: any) => {
-        userDataInstance.apiClient.GetRefreshToken(response, (data: any) => {
-            setAccessToken(data.accessToken);
-            setRefreshToken(data.refreshToken);
-
-            setRefreshTokenCookie(data.refreshToken);
-        })
-    };
-
-    const onGoogleLoginErrorHandler = (response: any) => {
-        console.log(`Login failed: ${response}`);
-    };
-
-    const googleLogin = useGoogleLogin({
-        flow: "auth-code",
-        scope: "https://www.googleapis.com/auth/drive.appdata",
-        onSuccess: onGoogleLoginSuccess,
-        onError: onGoogleLoginErrorHandler,
-    });
-
-    const googleLoginButtonText = () => {
-        return isTokenInvalid() ?
-            "Log in with Google to save data to GDrive" :
-            "Log out of Google to stop saving data to GDrive"
-    };
-
-    const getUserConfig = () => {
-        return 1+1;
-    };
+    const renderViewingOptions = () => {
+        return (
+            <div>
+                <div className="settings-options-label">Viewing</div>
+                    <InputTextField
+                        label="Year"
+                        description="Which year to view?"
+                        initialValue={userDataInstance.currentYear.toString()}
+                        onDataChanged={inputViewYearHandler}
+                    />
+                    <InputTextField
+                        label="Month"
+                        description="Which month to view?"
+                        initialValue={userDataInstance.currentMonth.toString()}
+                        onDataChanged={inputViewMonthHandler}
+                    />
+                <br />
+                <br />
+            </div>
+        );
+    }
 
     return (
         <div className="page">
@@ -100,16 +109,15 @@ export function SettingPage() {
                 isRefreshButtonEnabled={false}
             />
             <div className="settings-options-stack">
-                <div className="settings-options-label">Saving</div>
-                <button className="google-sign-in-button" onClick={() => isTokenInvalid() ? googleLogin() : clearTokens()}>
-                    {googleLoginButtonText()}
-                </button>
-                <br />
-                <br />
+                {isUserDataRetrieved ? renderViewingOptions() : ""}
                 <div className="settings-options-label">Stats</div>
                 <div className="settings-options-text"> 
-                    {`Total number of entires: ${userDataInstance.numberOfEntries}`}
+                    {`Total number of entires: ${numberOfEntries}`}
                 </div>
+                <br />
+                <br />
+                <div className="settings-options-label">Saving</div>
+                <SettingGoogleLogin onLoginAction={getUserData}/>
             </div>
             {userDataInstance.accessToken}
         </div>

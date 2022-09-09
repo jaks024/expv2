@@ -22,7 +22,7 @@ export function AddPage()
             <SimpleBar style={{height: "calc(100% - 50px)", padding:"10px"}}>
                 <div className="add-page-input-block-stack">
                     <InputBlock 
-                        getNewEntryId={() => 1}
+                        getNewEntryId={() => userDataInstance.OnAddedNewEntry()}
                         onAddNewEntry={onAddNewEntryHandler}/>
                 </div>
                 <br/>

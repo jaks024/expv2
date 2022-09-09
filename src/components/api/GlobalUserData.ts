@@ -6,13 +6,14 @@ export function GlobalUserData() {
     const currentYear = 2022;
     const currentMonth = 1;
     const apiClient = GWagonApiClient();
-
+    const onAddedNewEntry = () => { numberOfEntires + 1; return numberOfEntires};
     return {
         accessToken: accessToken,
         numberOfEntries: numberOfEntires,
         currentYear: currentYear,
         currentMonth: currentMonth,
-        apiClient: apiClient
+        apiClient: apiClient,
+        OnAddedNewEntry: onAddedNewEntry
     };
 }
 
