@@ -5,57 +5,105 @@ import { HistorySummaryBlock } from "./HistorySummaryBlock";
 import SimpleBar from 'simplebar-react';
 import 'simplebar/dist/simplebar.min.css';
 import "../../../styles/HistoryPage.css";
+import { userDataInstance } from "../../api/GlobalUserData";
+import { useState, useEffect } from "react";
+import { GetMonthName } from "../../utilities";
+import { LoadingBlocker } from "../../generics/LoadingBlocker";
 
 export function HistoryPage()
 {
-    const onDeleteHandler = (entryId: number) => {
-        alert("Deleted " + entryId);
+    const [totalIncome, setTotalIncome] = useState(0);
+    const [totalExpense, setTotalExpense] = useState(0);
+    const [isDataRetrieved, setIsDataRetrieved] = useState(false);
+    const [historyData, setHistoryData] = useState<IEntry[] | null>(null);
+    const onDeleteHandler = async (entryId: number) => {
+        const status =  await userDataInstance.apiClient.DeleteEntry(entryId);
+        if (status == 200) {
+            userDataInstance.OnRemovedEntry();
+        }
+        return status;
     }
 
-    const tempEntryData: IEntry[] = [
-        {
-            id: 1,
-            year: 2022,
-            month: 1,
-            day: 1,
-            vendor: "Test vendor",
-            location: "",
-            amount: 1234,
-            isExpense: true,
-            tags: "test1 test 2 test 3 test3 test4",
-            notes: "",
-            onDelete: () => onDeleteHandler(0)
-        },
-        {
-            id: 2,
-            year: 2022,
-            month: 1,
-            day: 1,
-            vendor: "Test vendor 1",
-            location: "",
-            amount: 323,
-            isExpense: false,
-            tags: "",
-            notes: "",
-            onDelete: () => onDeleteHandler(1)
-        },
-    ];
+    useEffect(() => {
+        setTimeout(() => {
+            if (userDataInstance.accessToken.length > 0) {
+                getHistoryData();
+            } else {
+                setIsDataRetrieved(true);
+            }
+            userDataInstance.RefreshHistory = refreshData;
+        }, 1500);
+    }, []);
+
+    const getHistoryData = async () => {
+        const data = await userDataInstance.apiClient.GetHistory();
+        console.log(data);
+        if (typeof data === "number") {
+            setHistoryData(null);
+            setIsDataRetrieved(true);
+            return;
+        }
+        setHistoryData(data);
+        setIsDataRetrieved(true);
+    }
+
+    const refreshData = async () => {
+        setIsDataRetrieved(false);
+        await getHistoryData();
+    }
+
+    const renderHistoryData = () => {
+        if (historyData == null) {
+            return;
+        }
+        const sortedEntries: [IEntry[]] = [[]];
+        for (let i = 0; i < 31; ++i) {
+            sortedEntries.push([]);
+        }
+        let incomeSum = 0;
+        let expenseSum = 0;
+        historyData.forEach(entry => {
+            if (entry.isExpense) {
+                expenseSum += entry.amount;
+            } else {
+                incomeSum += entry.amount;
+            }
+            entry.onDelete = onDeleteHandler;
+            sortedEntries[entry.day - 1].push(entry);
+        });
+        if (incomeSum != totalIncome) {
+            setTotalIncome(incomeSum);
+        }
+        if (expenseSum != totalExpense) {
+            setTotalExpense(expenseSum);
+        }
+        return sortedEntries.map((entries) => {
+            if (entries.length == 0) {
+                return;
+            }
+            return <HistoryDayStack 
+                        key={`${entries[0].year}-${entries[0].month}-${entries[0].day}`}
+                        date={`${GetMonthName(entries[0].month)} ${entries[0].day}`} 
+                        entries={entries}/>
+        });
+    }
 
     return (
         <div className="page history-page">
+            <LoadingBlocker 
+                isLoading={!isDataRetrieved}
+                loadingText="Retrieving History..." />
             <PageHeadBlock 
                 name="History"
-                month="from prop"
-                year="from prop"
-                isRefreshButtonEnabled={true}/> 
+                month={GetMonthName(userDataInstance.currentMonth)}
+                year={userDataInstance.currentYear.toString()}
+                isRefreshButtonEnabled={true}
+                onRefresh={refreshData}/> 
             <SimpleBar style={{height: "calc(100% - 50px)", padding:"10px"}}>
                 <HistorySummaryBlock 
-                    income={123}
-                    expense={213}/>
-                <HistoryDayStack date="Today" entries={tempEntryData}/>
-                <HistoryDayStack date="Today" entries={tempEntryData}/>
-                <HistoryDayStack date="Today" entries={tempEntryData}/>
-                <HistoryDayStack date="Today" entries={tempEntryData}/>
+                    income={totalIncome}
+                    expense={totalExpense}/>
+                {renderHistoryData()}
                 <br/>
                 <br/>
                 <br/>

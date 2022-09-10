@@ -4,4 +4,5 @@ export interface IPageHeadBlock
     month: string;
     year: string;
     isRefreshButtonEnabled: boolean;
+    onRefresh?: () => void;
 }

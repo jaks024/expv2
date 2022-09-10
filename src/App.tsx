@@ -5,12 +5,23 @@ import { SummaryPage } from './components/pages/summary/SummaryPage';
 import { HistoryPage } from './components/pages/history/HistoryPage';
 import { useState } from 'react';
 import { SettingPage } from './components/pages/setting/SettingPage';
+import { userDataInstance } from './components/api/GlobalUserData';
 
 function App() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const isPageEnabled = (index: number) => {
     return index === currentPage ? "page-enabled" : "";
+  }
+
+  const onClickSummaryPageHandler = () => {
+    userDataInstance.RefreshSummary();
+    setCurrentPage(1);
+  }
+
+  const onClickHistoryPageHandler = () => {
+    userDataInstance.RefreshHistory();
+    setCurrentPage(2);
   }
 
   return (
@@ -31,8 +42,8 @@ function App() {
       </div>
       <NavStack 
         onClickAddPage={() => setCurrentPage(0)}
-        onClickSummaryPage={() => setCurrentPage(1)}
-        onClickHistoryPage={() => setCurrentPage(2)}
+        onClickSummaryPage={onClickSummaryPageHandler}
+        onClickHistoryPage={onClickHistoryPageHandler}
         onClickSettingPage={() => setCurrentPage(3)}/>
     </div>
   );

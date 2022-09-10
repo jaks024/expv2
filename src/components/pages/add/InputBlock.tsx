@@ -83,7 +83,7 @@ export function InputBlock({getNewEntryId, onAddNewEntry} : IInputBlock)
             location: location,
             amount: amount,
             isExpense: isExpense,
-            tags: tags,
+            tags: tags.toLowerCase(),
             notes: notes
         };
         onAddNewEntry(entry);

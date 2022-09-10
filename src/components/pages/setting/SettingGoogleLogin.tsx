@@ -28,21 +28,16 @@ export function SettingGoogleLogin({ onLoginAction } : ISettingGoogleLogin) {
 
     const onLoadGetAccessToken = (refreshToken: string) => {
         // if error on getting access token then need to reset refresh token since it became invalid 
-        fetch('http://localhost:3000/auth/access', {
-            method: 'GET',
-            headers: {
-                refreshToken: refreshToken
-            } 
-        })
-        .then((res) => res.json())
-        .then((data) => {
-            setAccessToken(data);
-            onLoginAction();
-        })
-        .catch((error) => {
-            console.log(error);
-            clearTokens();
-        });
+        userDataInstance.apiClient.GetAccessToken(
+            refreshToken,
+            (data: any) => {
+                setAccessToken(data);
+                onLoginAction();
+            },
+            (err: any) => {
+                console.log(err);
+                clearTokens();
+            });
     };
 
     const onLoadGetRefreshToken = () => {

@@ -9,5 +9,5 @@ export interface IEntry {
     isExpense: boolean;
     tags: string;
     notes: string;
-    onDelete?: () => void;
+    onDelete?: (id: number) => Promise<number>;
 }

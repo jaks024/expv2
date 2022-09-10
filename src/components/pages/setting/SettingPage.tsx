@@ -46,10 +46,13 @@ export function SettingPage() {
         setIsUserDataRetrieved(true);
         setNumberOfEntries(userDataInstance.numberOfEntries);
         userDataInstance.OnAddedNewEntry = () => {
-            ++userDataInstance.numberOfEntries;
             setNumberOfEntries(userDataInstance.numberOfEntries);
             saveUserData();
-            return userDataInstance.numberOfEntries;
+        }
+        userDataInstance.OnRemovedEntry = () => {
+            --userDataInstance.numberOfEntries;
+            setNumberOfEntries(userDataInstance.numberOfEntries); 
+            saveUserData();
         }
     }
 
@@ -119,7 +122,6 @@ export function SettingPage() {
                 <div className="settings-options-label">Saving</div>
                 <SettingGoogleLogin onLoginAction={getUserData}/>
             </div>
-            {userDataInstance.accessToken}
         </div>
     );
 }

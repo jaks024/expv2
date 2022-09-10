@@ -10,6 +10,13 @@ export function AddPage()
 {
     const onAddNewEntryHandler = (newEntry: IEntry) => {
         userDataInstance.apiClient.AddNewEntry(newEntry);
+        userDataInstance.OnAddedNewEntry();
+    }
+
+    const getNewId = () => {
+        ++userDataInstance.totalEntriesCounter;
+        ++userDataInstance.numberOfEntries;
+        return userDataInstance.totalEntriesCounter;
     }
 
     return (
@@ -22,7 +29,7 @@ export function AddPage()
             <SimpleBar style={{height: "calc(100% - 50px)", padding:"10px"}}>
                 <div className="add-page-input-block-stack">
                     <InputBlock 
-                        getNewEntryId={() => userDataInstance.OnAddedNewEntry()}
+                        getNewEntryId={getNewId}
                         onAddNewEntry={onAddNewEntryHandler}/>
                 </div>
                 <br/>

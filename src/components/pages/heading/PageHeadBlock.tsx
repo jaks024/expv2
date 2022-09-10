@@ -2,7 +2,7 @@ import "../../../styles/PageHeadBlock.css";
 import { IPageHeadBlock } from "../../../interfaces/IPageHeadBlock";
 import refreshIcon from "../../../icons/refresh.svg";
 
-export function PageHeadBlock({name, month, year, isRefreshButtonEnabled: isFilterButtonEnabled} : IPageHeadBlock)
+export function PageHeadBlock({name, month, year, isRefreshButtonEnabled, onRefresh} : IPageHeadBlock)
 {
     return (
         <div className="page-head-block">
@@ -13,8 +13,8 @@ export function PageHeadBlock({name, month, year, isRefreshButtonEnabled: isFilt
                     <span>{year}</span>
                 </div>
             </div>
-            <div className="page-head-btn" style={{display: isFilterButtonEnabled ? "block" : "none"}}>
-                <button onClick={() => alert("refresh")}>
+            <div className="page-head-btn" style={{display: isRefreshButtonEnabled ? "block" : "none"}}>
+                <button onClick={() => {if (onRefresh != null) onRefresh(); }}>
                     <img src={refreshIcon} alt="refresh"/>
                 </button>
             </div>

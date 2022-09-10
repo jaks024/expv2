@@ -4,9 +4,11 @@ import { Tag } from "../../generics/Tag";
 import { GetUniqueId } from "../../utilities";
 import deleteIcon from "../../../icons/delete.svg";
 import "../../../styles/HistoryEntry.css";
+import { useState } from "react";
 
-export function HistoryEntry({vendor, location, amount, isExpense, tags, notes, onDelete} : IEntry)
+export function HistoryEntry({id, vendor, location, amount, isExpense, tags, notes, onDelete} : IEntry)
 {
+    const [isDeleted, setIsDeleted] = useState(false);
     const tagColor = "#9A98FF"
 
     const GenerateTags = (tags: string) => {
@@ -27,8 +29,17 @@ export function HistoryEntry({vendor, location, amount, isExpense, tags, notes, 
         });
     };
 
+    const onDeleteHandler = async () => {
+        if (onDelete != undefined) {
+            const status = await onDelete(id);
+            if (status === 200) {
+                setIsDeleted(true);
+            }
+        }
+    }
+
     return (
-        <div className="history-entry">
+        <div className={`history-entry ${isDeleted ? "history-entry-disabled" : ""}`}>
             <div className={`history-entry-type-label ${isExpense ? "history-entry-expense" : "history-entry-income"}`}>
                 {isExpense ? "Expense" : "Income" }
             </div>
@@ -40,7 +51,7 @@ export function HistoryEntry({vendor, location, amount, isExpense, tags, notes, 
                     <div>
                         ${amount.toFixed(2)}
                     </div>
-                    <button className="history-entry-delete-button" onClick={onDelete}>
+                    <button className="history-entry-delete-button" onClick={onDeleteHandler} disabled={isDeleted}>
                         <img src={deleteIcon} alt="delete"/>
                     </button>
                 </div>

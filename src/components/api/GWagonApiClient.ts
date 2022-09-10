@@ -1,6 +1,8 @@
 import { json } from "stream/consumers";
 import { IEntry } from "../../interfaces/IEntry";
 import { IGlobalUserDataDto } from "../dto/IGlobalUserDataDto";
+import { ISummaryDto } from "../dto/ISummaryDto";
+import { emptySummary } from "../utilities";
 import { userDataInstance } from "./GlobalUserData";
 
 export function GWagonApiClient() {
@@ -25,7 +27,25 @@ export function GWagonApiClient() {
         return res.status;
     }
 
+    const getAccessToken = (refreshToken: string, onReceived: (data: any) => void, onError: (err: any) => void) => {
+        console.log("getting access token");
+        fetch(`${ROOT}/auth/access`, {
+            method: 'GET',
+            headers: {
+                refreshToken: refreshToken
+            } 
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            onReceived(data);
+        })
+        .catch((error) => {
+            onError(error);
+        });
+    };
+
     const getRefreshToken = async (onGoogleLoginResponse: any, handler: (data: any) => void) => {
+        console.log("getting refresh token");
         await fetch(`${ROOT}/auth/google`, {
             method: "GET",
             headers: {
@@ -39,6 +59,7 @@ export function GWagonApiClient() {
     }
 
     const getUserData = async () => {
+        console.log("getting user data");
         const res = await fetch(`${ROOT}/userdata`, {
             method: "GET",
             headers: {
@@ -50,6 +71,7 @@ export function GWagonApiClient() {
     }
 
     const createUserData = async () => {
+        console.log("creating user data");
         const res = await fetch(`${ROOT}/userdata/create`, {
             method: "POST",
             headers: {
@@ -60,10 +82,12 @@ export function GWagonApiClient() {
     }
 
     const updateUserData = async () => {
+        console.log("updating user data");
         const dto: IGlobalUserDataDto = {
             currentMonth: userDataInstance.currentMonth,
             currentYear: userDataInstance.currentYear,
-            numberOfEntries: userDataInstance.numberOfEntries
+            numberOfEntries: userDataInstance.numberOfEntries,
+            totalEntriesCounter: userDataInstance.totalEntriesCounter
         }
         console.log(JSON.stringify(dto));
         const headers = new Headers();
@@ -79,11 +103,74 @@ export function GWagonApiClient() {
         return res.status;
     }
 
+    const getSummary = async () => {
+        console.log("getting summary");
+        try {
+            const res = await fetch(`${ROOT}/summary/${userDataInstance.currentYear}-${userDataInstance.currentMonth}`, {
+                method: "GET",
+                headers: {
+                    accessToken: userDataInstance.accessToken
+                }
+            });
+            if (res.status == 200) {
+                const parsed = await res.json();
+                const dto: ISummaryDto = parsed;
+                dto.incomeTagSums = new Map(Object.entries(parsed.incomeTagSums));
+                dto.expenseTagSums = new Map(Object.entries(parsed.expenseTagSums));
+                return dto;
+            }
+            return emptySummary;
+        } catch (err) {
+            return emptySummary;
+        }
+    };
+
+    const getHistory = async () => {
+        console.log("getting history");
+        let retrievedData: IEntry[] = [];
+        await fetch(`${ROOT}/get/${userDataInstance.currentYear}-${userDataInstance.currentMonth}`, {
+            method: "GET",
+            headers: {
+                accessToken: userDataInstance.accessToken
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            retrievedData = data;
+        })
+        .catch(err => {
+            console.log(err);
+        })
+        return retrievedData;
+    }
+
+    const deleteEntry = async (entryId: number) => {
+        console.log("deleting entry");
+        let status = 500;
+        await fetch(`${ROOT}/delete/${userDataInstance.currentYear}-${userDataInstance.currentMonth}/${entryId}`, {
+            method: "DELETE",
+            headers: {
+                accessToken: userDataInstance.accessToken
+            }
+        })
+        .then(res => {
+            status = res.status;
+        })
+        .catch(err => {
+            console.log(err);
+        });
+        return status;
+    }
+
     return {
         AddNewEntry: addNewEntry,
         GetRefreshToken: getRefreshToken,
         GetUserData: getUserData,
         CreateUserData: createUserData,
-        UpdateUserData: updateUserData
+        UpdateUserData: updateUserData,
+        GetSummary: getSummary,
+        GetAccessToken: getAccessToken,
+        GetHistory: getHistory,
+        DeleteEntry: deleteEntry
     };
 }
