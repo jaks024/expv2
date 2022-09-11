@@ -1,3 +1,4 @@
+import { json } from "stream/consumers";
 import { IEntry } from "../../interfaces/IEntry";
 import { IGlobalUserDataDto } from "../dto/IGlobalUserDataDto";
 import { ISummaryDto } from "../dto/ISummaryDto";
@@ -6,7 +7,7 @@ import { userDataInstance } from "./GlobalUserData";
 
 export function GWagonApiClient() {
 
-    const ROOT = "https://gwagon-tae44npnkq-pd.a.run.app";
+    const ROOT = "http://localhost:3000";
 
     const addNewEntry = async (newEntry: IEntry) => {
         console.log("post new entry ");
