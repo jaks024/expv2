@@ -7,7 +7,7 @@ import { userDataInstance } from "./GlobalUserData";
 
 export function GWagonApiClient() {
 
-    const ROOT = "http://localhost:3000";
+    const ROOT = "https://gwagon-tae44npnkq-pd.a.run.app";
 
     const addNewEntry = async (newEntry: IEntry) => {
         console.log("post new entry ");
